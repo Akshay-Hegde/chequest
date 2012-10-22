@@ -1,4 +1,4 @@
 chequest
 ========
 
-Social Networking module for PyroCMS
+Social Networking Platform module for PyroCMS
