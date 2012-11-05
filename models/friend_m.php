@@ -1,18 +1,18 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Activity_m extends MY_Model
+class Friend_m extends MY_Model
 {
 
-	protected $_table = 'chequest_activity';
+	protected $_table = 'chequest_friends';
 
 	function __construct(){
 		parent::__construct();
 	}
 	
-	public function get_many($id){
-		return $this->db->select('a.*, p.display_name')
-						->from($this->_table. ' a')
-						->join('profiles p', 'a.created_by = p.id')
+	public function get_friends($uid){
+		return $this->db->select('f.*, p.display_name')
+						->from($this->_table. ' f')
+						->join('profiles p', 'f.friend_id = p.id')
 						->where('a.created_by', $id)
 						->get()->result();
 	}

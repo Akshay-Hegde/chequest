@@ -1,0 +1,1 @@
+<ul class="nav nav-tabs">	<?php foreach($navs as $nav): ?>		<li<?php echo ($nav->slug == $context)? ' class="active"': ''; ?>><a href="<?php echo site_url('chequest/'.$nav->slug); ?>"><?php echo $nav->slug; ?></a></li>	<?php endforeach; ?></ul>

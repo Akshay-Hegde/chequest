@@ -95,7 +95,29 @@ class Module_Chequest extends Module {
 		$fields[] = array('name' => 'lang:chequest:label_type', 'slug' => 'content_type', 'extra' => array('max_length' => 50));
 		$fields[] = array('name' => 'lang:chequest:label_title', 'slug' => 'title', 'extra' => array('max_length' => 255));
 		$fields[] = array('name' => 'lang:chequest:label_content', 'slug' => 'content', 'type' => 'textarea');
-		$fields[] = array('name' => 'lang:chequest:label_url', 'slug' => 'url');
+		$fields[] = array('name' => 'lang:chequest:label_uri', 'slug' => 'uri');
+
+		// Combine
+		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
+	
+		// Add fields to stream
+		$this->streams->fields->add_fields($fields);
+		
+		################
+		##  CONTEXT  ##
+		################
+		
+		// Create context stream
+		if( !$this->streams->streams->add_stream('Context', 'context', 'cq_context', 'chequest_', NULL) ) return FALSE;
+		
+		// Get stream data
+		$activity = $this->streams->streams->get_stream('context', 'cq_context');
+	
+		// Add fields
+		$fields   = array();
+		$template = array('namespace' => 'cq_context', 'assign' => 'context', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
+		$fields[] = array('name' => 'Context Slug', 'slug' => 'slug', 'extra' => array('max_length' => 50));
+		$fields[] = array('name' => 'Context Description', 'slug' => 'description', 'extra' => array('max_length' => 255));
 
 		// Combine
 		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
@@ -117,7 +139,7 @@ class Module_Chequest extends Module {
 		$fields   = array();
 		$template = array('namespace' => 'cq_friend', 'assign' => 'friend', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
 		$fields[] = array('name' => 'lang:chequest:label_friend_id', 'slug' => 'friend_id', 'type' => 'integer');
-		$fields[] = array('name' => 'lang:chequest:label_approved', 'slug' => 'approved', 'extra' => array('default_value'=>1));
+		$fields[] = array('name' => 'lang:chequest:label_approved', 'slug' => 'approved', 'type' => 'integer', 'extra' => array('default_value'=>1));
 
 		// Combine
 		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
@@ -194,8 +216,19 @@ class Module_Chequest extends Module {
 		$return     = TRUE;
 		$settings   = array();
 		
-		// Settings set here
-		// ---
+		// Tax
+		$settings[] = array(
+			'slug' 		  	=> 'chequest_tax',
+			'title' 	  	=> 'Tax Percentage',
+			'description' 	=> 'The percentage of tax to be applied to the products',
+			'default'		=> '20',
+			'value'			=> '20',
+			'type' 			=> 'text',
+			'options'		=> '',
+			'is_required' 	=> 1,
+			'is_gui'		=> 1,
+			'module' 		=> 'chequest'
+		);
 
 		// Perform	
 		if( $action == 'add' )
@@ -224,10 +257,11 @@ class Module_Chequest extends Module {
 	public function templates($action)
 	{
 
-		$templates = array();
-		// email templates here
-		// ---
-		
+		$templates = array('order-complete-admin', 'order-complete-user');
+		$sql = "INSERT INTO `" . SITE_REF . "_email_templates` (`slug`, `name`, `description`, `subject`, `body`, `lang`, `is_default`, `module`) VALUES
+				('order-complete-admin', 'Order Complete (Admin)', 'Sent to the site admin once an order has been completed', '{{ settings:site_name }} :: An order has been complete', 'Email body', 'en', 0, ''),
+				('order-complete-user', 'Order Complete (User)', 'Sent to the user once an order has been completed', '{{ settings:site_name }} :: Your Order Confirmation', 'Email body', 'en', 0, '');";
+
 		if( $action == 'add' )
 		{
 			$this->db->query($sql);
