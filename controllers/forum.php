@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Activity extends Public_Controller {
+class Forum extends Public_Controller {
 	
 	public function __construct()
     {
@@ -12,7 +12,7 @@ class Activity extends Public_Controller {
 		$this->template
 			 ->append_css('module::chequest.css')
 			 ->append_js('module::chequest.js')
-			 ->set('context', 'activity');
+			 ->set('context', 'forum');
 		
 		// Set Sidenav
 		$this->_set_sidenav();
@@ -25,7 +25,10 @@ class Activity extends Public_Controller {
 		if(!is_int($id)) $activities = $this->activity_m->get_many_by(array('username'=>$id));
 	 		else $activities = $this->activity_m->get_many($id);
 
-		$this->template->set_partial('content', 'activity/index.php');
+		// Build page
+		//$this->template->build('product');
+		
+		$this->template->set_partial('content', 'forum/index.php');
 			 
 		self::build();
 	}
