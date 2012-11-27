@@ -36,19 +36,15 @@
 	$lang['chequest:dashboard:no_stock_out']	= 'No out of stock products';
 	$lang['chequest:dashboard:view_more']		= 'View more...';
 
-	// Categories
-	$lang['chequest:cats_title']			= 'Manage Categories';
-	$lang['chequest:cats_none']				= 'No Categories Found';
-	$lang['chequest:cats_new']				= 'Add new category';
-	$lang['chequest:cats_order']			= 'Order categories';
-	$lang['chequest:cats_draft_label']		= 'Draft';
-	$lang['chequest:cats_live_label']		= 'Live';
-	$lang['chequest:cats_edit']				= 'Edit Category';
-	$lang['chequest:cats_delete']			= 'Delete';
-	$lang['chequest:cats_add_success'] 		= 'New category was added successfully';
-	$lang['chequest:cats_add_error'] 		= 'There was a problem adding the new category';
-	$lang['chequest:cats_delete_success'] 	= 'Category was deleted successfully';
-	$lang['chequest:cats_delete_error'] 	= 'There was a problem deleting that category';
+	// Context
+	$lang['chequest:context:activity']		= 'Activity';
+	$lang['chequest:context:friends']		= 'Friends';
+	$lang['chequest:context:discussion']	= 'Discussion';
+	$lang['chequest:context:profile']		= 'Profile';
+	$lang['chequest:context:settings']		= 'Settings';
+
+	// Sub Context
+	$lang['chequest:context:all_activity']		= 'All Activity';
 	
 	// Products
 	$lang['chequest:prod_none']				= 'No Products Found';

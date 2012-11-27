@@ -77,7 +77,32 @@ class Module_Chequest extends Module {
 		// Load required items
 		$this->load->driver('Streams');
 		$this->load->language('chequest/chequest');
+		$this->load->library('chequest/chequest');
 		
+		################
+		##  CONTEXT  ##
+		################
+		
+		// Create context stream
+		if( !$this->streams->streams->add_stream('Context', 'context', 'cq_context', 'chequest_', NULL) ) return FALSE;
+		
+		// Get stream data
+		$activity = $this->streams->streams->get_stream('context', 'cq_context');
+	
+		// Add fields
+		$fields   = array();
+		$template = array('namespace' => 'cq_context', 'assign' => 'context', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
+		$fields[] = array('name' => 'Context Slug', 'slug' => 'context_slug', 'extra' => array('max_length' => 50));
+		$fields[] = array('name' => 'Context Description', 'slug' => 'description', 'extra' => array('max_length' => 255));
+		$fields[] = array('name' => 'Parent', 'slug' => 'parent', 'type'=>'integer', 'null'=>false, 'default'=>0);
+		$fields[] = array('name' => 'Order', 'slug' => 'order', 'type'=>'integer', 'null'=>false, 'default'=>0);
+
+		// Combine
+		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
+	
+		// Add fields to stream
+		$this->streams->fields->add_fields($fields);
+
 		################
 		##  ACTIVITY  ##
 		################
@@ -102,28 +127,20 @@ class Module_Chequest extends Module {
 	
 		// Add fields to stream
 		$this->streams->fields->add_fields($fields);
-		
-		################
-		##  CONTEXT  ##
-		################
-		
-		// Create context stream
-		if( !$this->streams->streams->add_stream('Context', 'context', 'cq_context', 'chequest_', NULL) ) return FALSE;
-		
-		// Get stream data
-		$activity = $this->streams->streams->get_stream('context', 'cq_context');
-	
-		// Add fields
-		$fields   = array();
-		$template = array('namespace' => 'cq_context', 'assign' => 'context', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
-		$fields[] = array('name' => 'Context Slug', 'slug' => 'slug', 'extra' => array('max_length' => 50));
-		$fields[] = array('name' => 'Context Description', 'slug' => 'description', 'extra' => array('max_length' => 255));
 
-		// Combine
-		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
-	
-		// Add fields to stream
-		$this->streams->fields->add_fields($fields);
+		// add context entry for activity
+		$this->chequest->add_context('activity', 'activity context', 0);
+
+		// add subcontext entry for activity
+		$this->chequest->add_context('all_activity', 'all activity feeds', 0, 'activity');
+
+		################
+		## Discussion ##
+		################
+		
+		// add context entry for discussion
+		$this->chequest->add_context('discussion', 'discussion context', 1);
+
 
 		################
 		##   FRIEND   ##
@@ -147,6 +164,15 @@ class Module_Chequest extends Module {
 		// Add fields to stream
 		$this->streams->fields->add_fields($fields);
 
+		// add context entry for friend
+		$this->chequest->add_context('friends', 'friends context', 2);
+
+		################
+		##   Profile  ##
+		################
+		
+		
+
 		################
 		##  SETTINGS  ##
 		################
@@ -168,6 +194,9 @@ class Module_Chequest extends Module {
 	
 		// Add fields to stream
 		$this->streams->fields->add_fields($fields);
+
+		// add context entry for activity
+		$this->chequest->add_context('settings', 'settings context', 99);
 		
 		return TRUE;
 	}
@@ -185,6 +214,7 @@ class Module_Chequest extends Module {
 		// $this->templates('remove');
 		
 		// Remove streams
+		$this->streams->utilities->remove_namespace('cq_context');
 		$this->streams->utilities->remove_namespace('cq_activity');
 		$this->streams->utilities->remove_namespace('cq_friend');
 		$this->streams->utilities->remove_namespace('cq_settings');

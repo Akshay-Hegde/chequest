@@ -7,6 +7,8 @@ class Profile extends Public_Controller {
         parent::__construct();
 
 		$this->load->model('chequest/activity_m');
+		$this->load->library('chequest');
+		$this->lang->load('chequest');
 		
 		// Load css/js
 		$this->template
@@ -15,7 +17,7 @@ class Profile extends Public_Controller {
 			 ->set('context', 'profile');
 		
 		// Set Sidenav
-		$this->_set_sidenav();
+		$this->chequest->set_context_menu();
 	}
 	
 	public function index($id = 1)
@@ -28,14 +30,6 @@ class Profile extends Public_Controller {
 		$this->template->set_partial('content', 'profile/index.php');
 			 
 		self::build();
-	}
-	
-	function _set_sidenav(){
-		$this->load->model('chequest/context_m');
-		
-		// get context for context navs
-		$data['navs'] = $this->context_m->get_all();
-		$this->template->set_partial('sidenav', 'sidenav.php', $data);
 	}
 	
 	function build($layout = 'layout'){

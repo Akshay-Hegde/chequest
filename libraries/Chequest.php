@@ -20,6 +20,7 @@ class Chequest {
 	public function __construct()
 	{
 		$this->ci = get_instance();
+		$this->ci->load->model('chequest/context_m');
 	}
 	
 	/**
@@ -31,19 +32,36 @@ class Chequest {
 	 * @param string $content_type
 	 *
 	 */
-	public static function add_context($slug, $description = '')
+	public function add_context($slug, $description = '', $order = 0, $parent_slug = false)
 	{
-		$this->ci->load->model('chequest/context_m');
-		
 		$data = array(
-					'slug' => $slug,
-					'description' => $description
+					'context_slug' => $slug,
+					'description' => $description,
+					'parent' => ($parent_slug)? $this->ci->context_m->get_parent($parent_slug)->id : 0,
+					'order' => $order,
+					'created'=>date("Y-m-d H:i:s"), 
+					'created_by'=>$this->ci->current_user->id, 
+					'ordering_count'=>0
 				);
 				
 		$result = $this->ci->context_m->insert($data);
 		
 		return $result;
 	}
+
+	function set_context_menu($parent_slug = false)
+	{
+		if($parent_slug)
+			$data['navs'] = $this->ci->context_m->get_subcontext($parent_slug);
+		else
+			$data['navs'] = $this->ci->context_m->get_context();
+
+		// set partial menu
+		$this->ci->template
+				 ->set_partial( ($parent_slug) ? 'subcontext' : 'context',
+				 				($parent_slug) ? 'subcontext_menu.php' : 'context_menu.php', $data);
+	}
+
 }
 
 /* End of file Activity.php */

@@ -1,14 +1,10 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Activity extends Public_Controller {
+class Discussion extends Public_Controller {
 	
 	public function __construct()
     {
         parent::__construct();
-
-        // check if user has login
-        if(!$this->current_user->id)
-        	redirect('users/login');
 
 		$this->load->model('chequest/activity_m');
 		$this->load->library('chequest');
@@ -18,10 +14,10 @@ class Activity extends Public_Controller {
 		$this->template
 			 ->append_css('module::chequest.css')
 			 ->append_js('module::chequest.js')
-			 ->set('context', 'activity');
+			 ->set('context', 'discussion');
 		
-		$this->chequest->set_context_menu(); // Set context menu
-		$this->chequest->set_context_menu('activity'); // Set subcontext menu
+		// Set Sidenav
+		$this->chequest->set_context_menu();
 	}
 	
 	public function index($id = 1)
@@ -31,8 +27,10 @@ class Activity extends Public_Controller {
 		if(!is_int($id)) $activities = $this->activity_m->get_many_by(array('username'=>$id));
 	 		else $activities = $this->activity_m->get_many($id);
 
-		$this->template->set('subcontext', 'all_activity')
-			 ->set_partial('content', 'activity/index.php');
+		// Build page
+		//$this->template->build('product');
+		
+		$this->template->set_partial('content', 'discussion/index.php');
 			 
 		self::build();
 	}
