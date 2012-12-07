@@ -5,6 +5,10 @@ class Discussion extends Public_Controller {
 	public function __construct()
     {
         parent::__construct();
+		
+		 // check if user has login
+        if(!isset($this->current_user->id))
+        	redirect('users/login');
 
 		$this->load->model('chequest/activity_m');
 		$this->load->library('chequest');

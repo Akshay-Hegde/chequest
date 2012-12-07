@@ -7,7 +7,7 @@ class Activity extends Public_Controller {
         parent::__construct();
 
         // check if user has login
-        if(!$this->current_user->id)
+        if(!isset($this->current_user->id))
         	redirect('users/login');
 
 		$this->load->model('chequest/activity_m');
