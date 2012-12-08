@@ -1,3 +1,9 @@
 .chequest-container {
 	padding: 25px 15px;
 }
+.main-avatar {
+	width: 128px;
+	height: 128px;
+	display: block;
+	background: url('../img/avatar.png') no-repeat top left;
+}
