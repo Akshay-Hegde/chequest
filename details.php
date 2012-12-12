@@ -3,7 +3,6 @@
 class Module_Chequest extends Module {
 	
 	public $version = '0.1';
-	public $language_file = 'chequest/chequest';
 	
 	public function __construct()
 	{
@@ -22,7 +21,6 @@ class Module_Chequest extends Module {
 			),
 			'frontend'	=> TRUE,
 			'backend'	=> TRUE,
-			'is_core'	=> TRUE,
 			'menu'	   	=> 'cheQuest',
 			'author'   	=> 'Toni Haryanto',
 			'roles' => array(
@@ -138,9 +136,90 @@ class Module_Chequest extends Module {
 		## Discussion ##
 		################
 		
+		// Create discussion group stream
+		if( !$this->streams->streams->add_stream(lang('chequest:sections:discussion_group'), 'discussion_group', 'cq_discussion_group', 'chequest_', NULL) ) return FALSE;
+		
+		// Get stream data
+		$discussion = $this->streams->streams->get_stream('discussion_group', 'cq_discussion_group');
+	
+		// Add fields
+		$fields   = array();
+		$template = array('namespace' => 'cq_discussion_group', 'assign' => 'discussion_group', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
+		$fields[] = array('name' => 'lang:chequest:label_groupname', 'slug' => 'groupname', 'extra' => array('max_length' => 50));
+		$fields[] = array('name' => 'lang:chequest:label_description', 'slug' => 'description');
+		$fields[] = array('name' => 'lang:chequest:status', 'slug' => 'status', 'type' => 'integer');
+
+		// Combine
+		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
+	
+		// Add fields to stream
+		$this->streams->fields->add_fields($fields);
+		
+		###################
+		// Create discussion topic stream
+		if( !$this->streams->streams->add_stream(lang('chequest:sections:discussion_topic'), 'discussion_topic', 'cq_discussion_topic', 'chequest_', NULL) ) return FALSE;
+		
+		// Get stream data
+		$discussion = $this->streams->streams->get_stream('discussion_topic', 'cq_discussion_topic');
+	
+		// Add fields
+		$fields   = array();
+		$template = array('namespace' => 'cq_discussion_topic', 'assign' => 'discussion_topic', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
+		$fields[] = array('name' => 'lang:chequest:label_group_id', 'slug' => 'group_id', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:label_parent_id', 'slug' => 'parent_id', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:label_title', 'slug' => 'title');
+		$fields[] = array('name' => 'lang:chequest:label_description', 'slug' => 'description');
+		$fields[] = array('name' => 'lang:chequest:status', 'slug' => 'status', 'type' => 'integer');
+
+		// Combine
+		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
+	
+		// Add fields to stream
+		$this->streams->fields->add_fields($fields);
+		
+		###################
+		// Create discussion thread stream
+		if( !$this->streams->streams->add_stream(lang('chequest:sections:discussion_thread'), 'discussion_thread', 'cq_discussion_thread', 'chequest_', NULL) ) return FALSE;
+		
+		// Get stream data
+		$discussion = $this->streams->streams->get_stream('discussion_thread', 'cq_discussion_thread');
+	
+		// Add fields
+		$fields   = array();
+		$template = array('namespace' => 'cq_discussion_thread', 'assign' => 'discussion_thread', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
+		$fields[] = array('name' => 'lang:chequest:label_group_id', 'slug' => 'group_id', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:label_user_id', 'slug' => 'user_id', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:label_title', 'slug' => 'title');
+		$fields[] = array('name' => 'lang:chequest:label_description', 'slug' => 'description');
+		$fields[] = array('name' => 'lang:chequest:status', 'slug' => 'status', 'type' => 'integer');
+
+		// Combine
+		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
+	
+		// Add fields to stream
+		$this->streams->fields->add_fields($fields);
+		
+		###################
+		// Create discussion moderator stream
+		if( !$this->streams->streams->add_stream(lang('chequest:sections:discussion_moderator'), 'discussion_moderator', 'cq_discussion_moderator', 'chequest_', NULL) ) return FALSE;
+		
+		// Get stream data
+		$discussion = $this->streams->streams->get_stream('discussion_moderator', 'cq_discussion_moderator');
+	
+		// Add fields
+		$fields   = array();
+		$template = array('namespace' => 'cq_discussion_moderator', 'assign' => 'discussion_moderator', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
+		$fields[] = array('name' => 'lang:chequest:label_topic_id', 'slug' => 'topic_id', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:label_user_id', 'slug' => 'user_id', 'type' => 'integer');
+
+		// Combine
+		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
+	
+		// Add fields to stream
+		$this->streams->fields->add_fields($fields);
+		
 		// add context entry for discussion
 		$this->chequest->add_context('discussion', 'discussion context', 1);
-
 
 		################
 		##   FRIEND   ##
@@ -217,6 +296,10 @@ class Module_Chequest extends Module {
 		$this->streams->utilities->remove_namespace('cq_context');
 		$this->streams->utilities->remove_namespace('cq_activity');
 		$this->streams->utilities->remove_namespace('cq_friend');
+		$this->streams->utilities->remove_namespace('cq_discussion_group');
+		$this->streams->utilities->remove_namespace('cq_discussion_thread');
+		$this->streams->utilities->remove_namespace('cq_discussion_topic');
+		$this->streams->utilities->remove_namespace('cq_discussion_moderator');
 		$this->streams->utilities->remove_namespace('cq_settings');
 		
 		// Return
