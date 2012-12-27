@@ -49,5 +49,6 @@
 
 
 	// Sub Context
-	$lang['chequest:context:all_activity']		= 'All Activity';
+	$lang['chequest:subcontext:all_activity']	= 'All Activity';
+	$lang['chequest:subcontext:newest']			= 'Newest';
 	

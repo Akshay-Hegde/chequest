@@ -20,8 +20,12 @@ class Discussion extends Public_Controller {
 			 ->append_js('module::chequest.js')
 			 ->set('context', 'discussion');
 		
-		// Set Sidenav
-		$this->chequest->set_context_menu();
+		$this->chequest->set_context_menu(); // Set context menu
+		$this->chequest
+			 ->set_subcontext_menu('discussion', 
+			 	array(
+			 		array('context_slug'=>'newest', 'description'=>'Newest Items', 'context_uri'=>null)
+				)); // Set subcontext menu
 	}
 	
 	public function index($id = 1)
@@ -31,10 +35,8 @@ class Discussion extends Public_Controller {
 		if(!is_int($id)) $activities = $this->activity_m->get_many_by(array('username'=>$id));
 	 		else $activities = $this->activity_m->get_many($id);
 
-		// Build page
-		//$this->template->build('product');
-		
-		$this->template->set_partial('content', 'discussion/index.php');
+		$this->template->set('subcontext', 'newest')
+					->set_partial('content', 'discussion/index.php');
 			 
 		self::build();
 	}

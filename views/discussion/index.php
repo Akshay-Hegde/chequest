@@ -1,2 +1,8 @@
-<h2>Forum 
-<a class="pull-right btn btn-primary" href="#">+ Add New Discussion</a></h2>
+<h2>Forum</h2>
+
+<div class="tabbable">
+	<?php echo $template['partials']['subcontext']; ?>
+	<div class="tab-content">
+		Contents Here
+	</div>
+</div>

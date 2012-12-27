@@ -92,8 +92,9 @@ class Module_Chequest extends Module {
 		$template = array('namespace' => 'cq_context', 'assign' => 'context', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
 		$fields[] = array('name' => 'Context Slug', 'slug' => 'context_slug', 'extra' => array('max_length' => 50));
 		$fields[] = array('name' => 'Context Description', 'slug' => 'description', 'extra' => array('max_length' => 255));
-		$fields[] = array('name' => 'Parent', 'slug' => 'parent', 'type'=>'integer', 'null'=>false, 'default'=>0);
-		$fields[] = array('name' => 'Order', 'slug' => 'order', 'type'=>'integer', 'null'=>false, 'default'=>0);
+		$fields[] = array('name' => 'Context URI', 'slug' => 'context_uri', 'default'=>null, 'extra' => array('max_length' => 200));
+		$fields[] = array('name' => 'Parent', 'slug' => 'parent', 'type'=>'integer', 'default'=>0);
+		$fields[] = array('name' => 'Order', 'slug' => 'order', 'type'=>'integer', 'default'=>0);
 
 		// Combine
 		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }

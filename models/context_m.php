@@ -16,7 +16,7 @@ class Context_m extends MY_Model
 	public function get_context(){
 		return $this->db
 					->where('parent', 0)
-					->order_by('order', 'asc')->get($this->_table)->result();
+					->order_by('order', 'asc')->get($this->_table)->result_array();
 	}
 
 	public function get_subcontext($parent_slug){
@@ -25,7 +25,7 @@ class Context_m extends MY_Model
 		if(isset($parent->id))
 			return $this->db
 						->where('parent', $parent->id)
-						->order_by('order', 'asc')->get($this->_table)->result();
+						->order_by('order', 'asc')->get($this->_table)->result_array();
 
 		return false;
 	}

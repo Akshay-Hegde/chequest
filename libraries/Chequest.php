@@ -49,17 +49,25 @@ class Chequest {
 		return $result;
 	}
 
-	function set_context_menu($parent_slug = false)
+	function set_context_menu()
 	{
-		if($parent_slug)
-			$data['navs'] = $this->ci->context_m->get_subcontext($parent_slug);
-		else
-			$data['navs'] = $this->ci->context_m->get_context();
+		$data['navs'] = $this->ci->context_m->get_context();
 
 		// set partial menu
 		$this->ci->template
-				 ->set_partial( ($parent_slug) ? 'subcontext' : 'context',
-				 				($parent_slug) ? 'subcontext_menu.php' : 'context_menu.php', $data);
+				 ->set_partial('context', 'context_menu.php', $data);
+	}
+
+	function set_subcontext_menu($parent_slug = null, $subcontexts = array())
+	{
+		if(count($subcontexts)==0)
+			$data['navs'] = $this->ci->context_m->get_subcontext($parent_slug);
+		else
+			$data['navs'] = $subcontexts;
+
+		// set partial menu
+		$this->ci->template
+				 ->set_partial('subcontext', 'subcontext_menu.php', $data);
 	}
 
 }

@@ -21,7 +21,7 @@ class Activity extends Public_Controller {
 			 ->set('context', 'activity');
 		
 		$this->chequest->set_context_menu(); // Set context menu
-		$this->chequest->set_context_menu('activity'); // Set subcontext menu
+		$this->chequest->set_subcontext_menu('activity'); // Set subcontext menu
 	}
 	
 	public function index($id = 1)
