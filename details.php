@@ -137,7 +137,7 @@ class Module_Chequest extends Module {
 		## Discussion ##
 		################
 		
-		// Create discussion group stream
+		// Create discussion GROUP stream
 		if( !$this->streams->streams->add_stream(lang('chequest:sections:discussion_group'), 'discussion_group', 'cq_discussion_group', 'chequest_', NULL) ) return FALSE;
 		
 		// Get stream data
@@ -146,9 +146,12 @@ class Module_Chequest extends Module {
 		// Add fields
 		$fields   = array();
 		$template = array('namespace' => 'cq_discussion_group', 'assign' => 'discussion_group', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
-		$fields[] = array('name' => 'lang:chequest:label_groupname', 'slug' => 'groupname', 'extra' => array('max_length' => 50));
-		$fields[] = array('name' => 'lang:chequest:label_description', 'slug' => 'description');
+		$fields[] = array('name' => 'lang:chequest:label_title', 'slug' => 'group_title', 'extra' => array('max_length' => 50));
+		$fields[] = array('name' => 'lang:chequest:label_slug', 'slug' => 'group_slug', 'extra' => array('max_length' => 50));
+		$fields[] = array('name' => 'lang:chequest:label_description', 'slug' => 'group_description');
 		$fields[] = array('name' => 'lang:chequest:status', 'slug' => 'status', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:count_group_threads', 'slug' => 'count_group_threads', 'type' => 'integer', 'default' => 0);
+		$fields[] = array('name' => 'lang:chequest:count_group_topics', 'slug' => 'count_group_topics', 'type' => 'integer', 'default' => 0);
 
 		// Combine
 		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
@@ -157,7 +160,7 @@ class Module_Chequest extends Module {
 		$this->streams->fields->add_fields($fields);
 		
 		###################
-		// Create discussion topic stream
+		// Create discussion TOPIC stream
 		if( !$this->streams->streams->add_stream(lang('chequest:sections:discussion_topic'), 'discussion_topic', 'cq_discussion_topic', 'chequest_', NULL) ) return FALSE;
 		
 		// Get stream data
@@ -168,9 +171,11 @@ class Module_Chequest extends Module {
 		$template = array('namespace' => 'cq_discussion_topic', 'assign' => 'discussion_topic', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
 		$fields[] = array('name' => 'lang:chequest:label_group_id', 'slug' => 'group_id', 'type' => 'integer');
 		$fields[] = array('name' => 'lang:chequest:label_parent_id', 'slug' => 'parent_id', 'type' => 'integer');
-		$fields[] = array('name' => 'lang:chequest:label_title', 'slug' => 'title');
-		$fields[] = array('name' => 'lang:chequest:label_description', 'slug' => 'description');
+		$fields[] = array('name' => 'lang:chequest:label_title', 'slug' => 'topic_title');
+		$fields[] = array('name' => 'lang:chequest:label_slug', 'slug' => 'topic_slug');
+		$fields[] = array('name' => 'lang:chequest:label_description', 'slug' => 'topic_description');
 		$fields[] = array('name' => 'lang:chequest:status', 'slug' => 'status', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:count_topic_threads', 'slug' => 'count_topic_threads', 'type' => 'integer', 'default' => 0);
 
 		// Combine
 		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
@@ -179,20 +184,22 @@ class Module_Chequest extends Module {
 		$this->streams->fields->add_fields($fields);
 		
 		###################
-		// Create discussion thread stream
-		if( !$this->streams->streams->add_stream(lang('chequest:sections:discussion_thread'), 'discussion_thread', 'cq_discussion_thread', 'chequest_', NULL) ) return FALSE;
+		// Create discussion POST stream
+		if( !$this->streams->streams->add_stream(lang('chequest:sections:discussion_post'), 'discussion_post', 'cq_discussion_post', 'chequest_', NULL) ) return FALSE;
 		
 		// Get stream data
-		$discussion = $this->streams->streams->get_stream('discussion_thread', 'cq_discussion_thread');
+		$discussion = $this->streams->streams->get_stream('discussion_post', 'cq_discussion_post');
 	
 		// Add fields
 		$fields   = array();
-		$template = array('namespace' => 'cq_discussion_thread', 'assign' => 'discussion_thread', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
-		$fields[] = array('name' => 'lang:chequest:label_group_id', 'slug' => 'group_id', 'type' => 'integer');
-		$fields[] = array('name' => 'lang:chequest:label_user_id', 'slug' => 'user_id', 'type' => 'integer');
-		$fields[] = array('name' => 'lang:chequest:label_title', 'slug' => 'title');
-		$fields[] = array('name' => 'lang:chequest:label_description', 'slug' => 'description');
+		$template = array('namespace' => 'cq_discussion_post', 'assign' => 'discussion_post', 'type' => 'text', 'title_column' => FALSE, 'required' => TRUE, 'unique' => FALSE);
+		$fields[] = array('name' => 'lang:chequest:label_group_id', 'slug' => 'topic_id', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:label_parent_id', 'slug' => 'parent_id', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:label_title', 'slug' => 'post_title');
+		$fields[] = array('name' => 'lang:chequest:label_slug', 'slug' => 'post_slug');
+		$fields[] = array('name' => 'lang:chequest:label_content', 'slug' => 'post_content', 'type' => 'textarea');
 		$fields[] = array('name' => 'lang:chequest:status', 'slug' => 'status', 'type' => 'integer');
+		$fields[] = array('name' => 'lang:chequest:count_comments', 'slug' => 'count_comments', 'type' => 'integer', 'default' => 0);
 
 		// Combine
 		foreach( $fields AS $key => $field ) { $fields[$key] = array_merge($template, $field); }
@@ -298,8 +305,8 @@ class Module_Chequest extends Module {
 		$this->streams->utilities->remove_namespace('cq_activity');
 		$this->streams->utilities->remove_namespace('cq_friend');
 		$this->streams->utilities->remove_namespace('cq_discussion_group');
-		$this->streams->utilities->remove_namespace('cq_discussion_thread');
 		$this->streams->utilities->remove_namespace('cq_discussion_topic');
+		$this->streams->utilities->remove_namespace('cq_discussion_post');
 		$this->streams->utilities->remove_namespace('cq_discussion_moderator');
 		$this->streams->utilities->remove_namespace('cq_settings');
 		

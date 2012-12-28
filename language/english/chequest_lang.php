@@ -17,7 +17,7 @@
 	$lang['chequest:sections:orders_items']	= 'Order Items';
 	$lang['chequest:sections:discussion_group']		= 'Discussion Group';
 	$lang['chequest:sections:discussion_topic']		= 'Discussion Topic';
-	$lang['chequest:sections:discussion_thread']	= 'Discussion Thread';
+	$lang['chequest:sections:discussion_post']	= 'Discussion Post';
 	$lang['chequest:sections:discussion_moderator']	= 'Discussion Moderator';
 	$lang['chequest:sections:settings'] 	= 'Settings';
 	
@@ -51,4 +51,5 @@
 	// Sub Context
 	$lang['chequest:subcontext:all_activity']	= 'All Activity';
 	$lang['chequest:subcontext:newest']			= 'Newest';
+	$lang['chequest:subcontext:mine']			= 'Mine';
 	
