@@ -50,6 +50,6 @@
 
 	// Sub Context
 	$lang['chequest:subcontext:all_activity']	= 'All Activity';
-	$lang['chequest:subcontext:newest']			= 'Newest';
+	$lang['chequest:subcontext:lobby']			= 'Lobby';
 	$lang['chequest:subcontext:mine']			= 'Mine';
 	

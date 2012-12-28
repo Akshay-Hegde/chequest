@@ -1,13 +1,11 @@
-<h2>Forum
-<div class="btn-group">
-	<a href="#" class="btn btn-small btn-primary">Write Thread</a> 
-	<a href="#" class="btn btn-small btn-primary">Create Topic</a> 
-	<a href="#" class="btn btn-small btn-primary">Create Group</a> 
-</div></h2>
+<h2>Discussion
+<a href="#" class="btn btn-mini pull-right" title="Create Group"><span class="icon icon-plus-sign"></span> Create Group</a></h2>
 
 <div class="tabbable">
 	<?php echo $template['partials']['subcontext']; ?>
 	<div class="tab-content">
+		<?php echo $template['partials']['forms']; ?>
+
 		<div class="page-header">
 			<h4>Newest Threads <small class="pull-right"><a>See more</a></small></h4>
 		</div>
@@ -21,7 +19,7 @@
 			</div>
 			<?php endforeach; ?>
 		<?php else: ?>
-			<p>There's no any thread yet. Create <a>some</a>.</p>
+			<p>There's no any thread yet. Create <a>one</a>.</p>
 		<?php endif; ?>
 		</div>
 
@@ -39,7 +37,7 @@
 			</div>
 			<?php endforeach; ?>
 		<?php else: ?>
-			<p>There's no any topic yet. Create <a>some</a>.</p>
+			<p>There's no any topic yet. Create <a>one</a>.</p>
 		<?php endif; ?>
 		</div>
 
@@ -48,17 +46,18 @@
 			<h4>Recently Active Groups <small class="pull-right"><a>See all</a></small></h4>
 		</div>
 		<div id="groups">
-		<?php if(count($topics)>0): ?>
+		<?php if(count($groups)>0): ?>
 			<?php foreach($groups as $group): ?>
 			<div class="pull-left thumbnail group-icon">
-				<a href="<?php echo site_url('group/'.$group->group_slug); ?>">
+				<a href="<?php echo site_url('group/'.$group->group_slug); ?>" title="<?php echo $group->group_description; ?>">
 					<img data-src="holder.js/160x100" alt=""><br>
 					<?php echo $group->group_title; ?>
 				</a>
+				<a href="#" class="btn btn-mini btn-primary btn-hover" title="join this group">join</a>
 			</div>
 			<?php endforeach; ?>
 		<?php else: ?>
-			<p>There's no any group yet. Create <a>some</a>.</p>
+			<p>There's no any group yet. Create <a>one</a>.</p>
 		<?php endif; ?>
 		</div>
 		<div class="clearfix"></div>

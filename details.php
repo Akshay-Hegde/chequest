@@ -132,6 +132,7 @@ class Module_Chequest extends Module {
 
 		// add subcontext entry for activity
 		$this->chequest->add_context('all_activity', 'all activity feeds', 0, 'activity');
+		$this->chequest->add_context('mine', 'your own activity posts', 1, 'activity');
 
 		################
 		## Discussion ##
@@ -252,7 +253,7 @@ class Module_Chequest extends Module {
 		$this->streams->fields->add_fields($fields);
 
 		// add context entry for friend
-		$this->chequest->add_context('friends', 'friends context', 2);
+		// $this->chequest->add_context('friends', 'friends context', 2);
 
 		################
 		##   Profile  ##
@@ -283,7 +284,7 @@ class Module_Chequest extends Module {
 		$this->streams->fields->add_fields($fields);
 
 		// add context entry for activity
-		$this->chequest->add_context('settings', 'settings context', 99);
+		// $this->chequest->add_context('settings', 'settings context', 99);
 		
 		return TRUE;
 	}

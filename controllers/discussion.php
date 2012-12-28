@@ -19,13 +19,14 @@ class Discussion extends Public_Controller {
 			 ->append_css('module::chequest.css')
 			 ->append_js('module::chequest.js')
 			 ->append_js('module::holder.js')
-			 ->set('context', 'discussion');
+			 ->set('context', 'discussion')
+			 ->set_partial('forms', 'discussion/form.php');
 		
 		$this->chequest->set_context_menu(); // Set context menu
 		$this->chequest
 			 ->set_subcontext_menu('discussion', 
 			 	array(
-			 		array('context_slug'=>'newest', 'description'=>'Newest Items', 'context_uri'=>null),
+			 		array('context_slug'=>'lobby', 'description'=>'Lobby Forum', 'context_uri'=>null),
 			 		array('context_slug'=>'mine', 'description'=>'Mine', 'context_uri'=>null)
 				)); // Set subcontext menu
 	}
@@ -38,7 +39,7 @@ class Discussion extends Public_Controller {
 	 	$newest_topics = $this->discussion_m->get_topics(6);
 	 	$newest_groups = $this->discussion_m->get_groups(6);
 
-		$this->template->set('subcontext', 'newest')
+		$this->template->set('subcontext', 'lobby')
 					->set('threads', $newest_threads)
 					->set('topics', $newest_topics)
 					->set('groups', $newest_groups)

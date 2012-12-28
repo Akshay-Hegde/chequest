@@ -1,12 +1,9 @@
 <h2>Activity
 <div class="btn-group">
-	<button class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">+ Post Content</button>
-	<ul class="dropdown-menu">
- 		<li><a href="#"><span class="icon icon-hand-up"></span> Links</a></li>
-		<li><a href="#"><span class="icon icon-pencil"></span> Blog</a></li>
-		<li><a href="#"><span class="icon icon-picture"></span> Images</a></li>
-		<li><a href="#"><span class="icon icon-film"></span> Video</a></li>
-	</ul>
+	<a class="btn btn-mini" href="#" title="Post Link"><span class="icon icon-hand-up"></span> Post Link</a>
+	<a class="btn btn-mini" href="#" title="Post Blog"><span class="icon icon-pencil"></span> Post Blog</a>
+	<a class="btn btn-mini" href="#" title="Post Image"><span class="icon icon-picture"></span> Post Image</a>
+	<a class="btn btn-mini" href="#" title="Post Video"><span class="icon icon-film"></span> Post Video</a>
 </div></h2>
 
 <div class="tabbable">

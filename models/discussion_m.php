@@ -16,6 +16,7 @@ class Discussion_m extends MY_Model
 		return $this->db->from($this->_group_table)
 						->where('status', 1)
 						->limit($limit)
+						->order_by('updated','desc')
 						->get()->result();
 	}
 	public function get_topics($limit = 10){
