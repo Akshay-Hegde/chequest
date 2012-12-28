@@ -1,9 +1,9 @@
-<h2>Forum</h2>
-<div class="btn-group pull-right">
+<h2>Forum
+<div class="btn-group">
 	<a href="#" class="btn btn-small btn-primary">Write Thread</a> 
 	<a href="#" class="btn btn-small btn-primary">Create Topic</a> 
 	<a href="#" class="btn btn-small btn-primary">Create Group</a> 
-</div>
+</div></h2>
 
 <div class="tabbable">
 	<?php echo $template['partials']['subcontext']; ?>
